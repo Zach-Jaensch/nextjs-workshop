@@ -1,40 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Nextjs App router workshop
 
-## Getting Started
+A Quick run through on how to migrate a client side app, first to use server side rendering, then incremental static regeneration, and finally, migrate to use server components.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+nvm install
+nvm use
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tasks
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Implement server side rendering
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+This can be implemented one of 2 ways
+Hydrated tanstack query state: https://tanstack.com/query/latest/docs/framework/react/examples/nextjs
+Page props: https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### Implement static pages with ISR
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load Inter, a custom Google Font.
+This is where some tricky page invalidation will need to occur (Perhaps you will need to add some revalidation calls to the api)
+https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration
 
-## Learn More
+### Migrate to server components
 
-To learn more about Next.js, take a look at the following resources:
+## Stretch goals
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Implement a loading page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+https://nextjs.org/docs/app/api-reference/file-conventions/loading
 
-## Deploy on Vercel
+### Migrate apis to server actions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations

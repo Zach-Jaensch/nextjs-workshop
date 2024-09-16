@@ -20,12 +20,8 @@ export default function Home() {
 
   return (
     <div className="container mx-auto py-8 px-4 grid gap-4 grid-cols-12">
-      {Array.from({ length: 50 }).map((_, index) => (
-        <PokemonCard
-          id={index + 1}
-          key={index}
-          isInDex={data.includes(index + 1)}
-        />
+      {data.map((index: number) => (
+        <PokemonCard id={index + 1} key={index} isInDex />
       ))}
     </div>
   );
