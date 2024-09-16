@@ -26,12 +26,16 @@ https://nextjs.org/docs/pages/building-your-application/data-fetching/incrementa
 
 ### Migrate to server components
 
+- Migrate layout to app
+- Migrate pages to app
+- Load data in server components
+
 ## Stretch goals
 
 ### Implement a loading page
 
 https://nextjs.org/docs/app/api-reference/file-conventions/loading
 
-### Migrate apis to server actions
+### Migrate mutation apis to server actions
 
 https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations
