@@ -1,14 +1,8 @@
+import { getPokemonQueryOptions } from "#/api/pokemon/get-pokemon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 
-async function fetchPokemon(signal: AbortSignal, id: number) {
-  const result = await fetch(`/api/pokemon/${id}`, {
-    signal,
-  });
-  return result.json();
-}
-
-async function addToDex(pokemonId: string) {
+async function addToDex(pokemonId: number) {
   const result = await fetch("/api/pokedex", {
     method: "POST",
     body: JSON.stringify(pokemonId),
@@ -16,7 +10,7 @@ async function addToDex(pokemonId: string) {
   return result.json();
 }
 
-async function removeFromDex(pokemonId: string) {
+async function removeFromDex(pokemonId: number) {
   const result = await fetch("/api/pokedex", {
     method: "DELETE",
     body: JSON.stringify(pokemonId),
@@ -30,10 +24,7 @@ interface PokemonCardProps {
 }
 
 export function PokemonCard({ id, isInDex }: PokemonCardProps) {
-  const { data, isLoading } = useQuery({
-    queryKey: ["pokemon", id],
-    queryFn: ({ signal }) => fetchPokemon(signal, id),
-  });
+  const { data, isLoading } = useQuery(getPokemonQueryOptions(id));
 
   const queryClient = useQueryClient();
 
@@ -51,7 +42,7 @@ export function PokemonCard({ id, isInDex }: PokemonCardProps) {
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return <div>Loading Pokémon...</div>;
   }
 

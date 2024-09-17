@@ -1,18 +1,9 @@
 import { PokemonCard } from "#/components/pokemon-card";
 import { useQuery } from "@tanstack/react-query";
-
-async function fetchDex(signal: AbortSignal) {
-  const result = await fetch("/api/pokedex/", {
-    signal,
-  });
-  return result.json();
-}
+import { getPokedexQueryOptions } from "#/api/pokedex/get-pokedex";
 
 export default function Home() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["pokedex"],
-    queryFn: ({ signal }) => fetchDex(signal),
-  });
+  const { data = [], isLoading } = useQuery(getPokedexQueryOptions());
 
   if (isLoading) {
     return <div>Loading Pokédex...</div>;
