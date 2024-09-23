@@ -2,14 +2,42 @@
 
 A Quick run through on how to migrate a client side app, first to use server side rendering, then incremental static regeneration, and finally, migrate to use server components.
 
+## Prerequisites
+
+Before the workshop, ensure that you have [nvm](https://github.com/nvm-sh/nvm) (or [fnm](https://github.com/Schniz/fnm)) is installed.
+
+Optionally, if you want to deploy your application, set up a Vercel account:
+
+1. https://vercel.com/signup
+1. Select "Hobby"
+1. Enter your name and press continue
+1. Continue with GitHub
+
 ## Getting started
 
-```bash
-nvm install
-nvm use
-pnpm install
-pnpm dev
-```
+1. Select the right node version (or install it)
+
+   ```bash
+   nvm use
+   ```
+
+1. Install the correct version of pnpm
+
+   ```bash
+   corepack enable
+   ```
+
+1. Install dependencies
+
+   ```bash
+   pnpm install
+   ```
+
+1. Run app
+
+   ```bash
+   pnpm dev
+   ```
 
 ## Tasks
 
