@@ -1,8 +1,7 @@
+"use client";
+
 import { PokemonCard } from "#/components/pokemon-card";
 import { useQuery } from "@tanstack/react-query";
-import { GetServerSideProps } from "next";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getPokemonQueryOptions } from "#/api/pokemon/get-pokemon";
 import { getPokedexQueryOptions } from "#/api/pokedex/get-pokedex";
 
 export default function Home() {
@@ -24,19 +23,3 @@ export default function Home() {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
-  await Promise.all([
-    queryClient.prefetchQuery(getPokedexQueryOptions()),
-    ...Array.from({ length: 50 }).map((_, index) =>
-      queryClient.prefetchQuery(getPokemonQueryOptions(index)),
-    ),
-  ]);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
