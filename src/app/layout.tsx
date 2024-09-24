@@ -1,7 +1,4 @@
-import type { AppProps } from "next/app";
 import "#/styles/globals.css";
-import type { DehydratedState } from "@tanstack/react-query";
-import { ReactQuery } from "./_components/react-query";
 import { Header } from "./_components/header";
 
 interface LayoutProps {
@@ -18,9 +15,7 @@ export default function Layout({ children }: LayoutProps) {
       </head>
       <body>
         <Header />
-        <main>
-          <ReactQuery>{children}</ReactQuery>
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );

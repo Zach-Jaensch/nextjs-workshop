@@ -1,7 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { getPokemonQueryOptions } from "#/api/pokemon/get-pokemon";
-import { Button } from "#/components/ui/button";
+import { fetchPokemon } from "#/api/pokemon/get-pokemon";
 import {
   Card,
   CardContent,
@@ -20,22 +18,7 @@ import { GroundSvg } from "./svgs/ground";
 import { NormalSvg } from "./svgs/normal";
 import { PoisonSvg } from "./svgs/poison";
 import { WaterSvg } from "./svgs/water";
-
-async function addToDex(pokemonId: number) {
-  const result = await fetch("/api/pokedex", {
-    method: "POST",
-    body: JSON.stringify(pokemonId),
-  });
-  return result.json();
-}
-
-async function removeFromDex(pokemonId: number) {
-  const result = await fetch("/api/pokedex", {
-    method: "DELETE",
-    body: JSON.stringify(pokemonId),
-  });
-  return result.json();
-}
+import { DexAction } from "./dex-action";
 
 interface BadgeWithIconProps {
   type: string;
@@ -81,28 +64,8 @@ interface PokemonCardProps {
   isInDex: boolean;
 }
 
-export function PokemonCard({ id, isInDex }: PokemonCardProps) {
-  const { data, isLoading } = useQuery(getPokemonQueryOptions(id));
-
-  const queryClient = useQueryClient();
-
-  const { mutate: add, isPending: isAdding } = useMutation({
-    mutationFn: addToDex,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["pokedex"] });
-    },
-  });
-
-  const { mutate: remove, isPending: isRemoving } = useMutation({
-    mutationFn: removeFromDex,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["pokedex"] });
-    },
-  });
-
-  if (isLoading || !data) {
-    return <div>Loading Pokémon...</div>;
-  }
+export async function PokemonCard({ id, isInDex }: PokemonCardProps) {
+  const data = await fetchPokemon(id);
 
   const name = capitalizeFirstLetter(data.name);
 
@@ -137,14 +100,7 @@ export function PokemonCard({ id, isInDex }: PokemonCardProps) {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button
-          disabled={isAdding || isRemoving}
-          className="w-full"
-          variant={isInDex ? "destructive" : "default"}
-          onClick={() => (isInDex ? remove(data.id) : add(data.id))}
-        >
-          {isInDex ? "Remove from" : "Add to"} Pokédex
-        </Button>
+        <DexAction isInDex={isInDex} id={data.id} />
       </CardFooter>
     </Card>
   );
