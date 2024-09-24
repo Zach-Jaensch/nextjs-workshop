@@ -19,6 +19,7 @@ import { NormalSvg } from "./svgs/normal";
 import { PoisonSvg } from "./svgs/poison";
 import { WaterSvg } from "./svgs/water";
 import { DexAction } from "./dex-action";
+import { unstable_cache } from "next/cache";
 
 interface BadgeWithIconProps {
   type: string;
@@ -64,8 +65,13 @@ interface PokemonCardProps {
   isInDex: boolean;
 }
 
+const getCachedPokemon = unstable_cache(
+  async (id) => fetchPokemon(id),
+  ["pokemon"],
+);
+
 export async function PokemonCard({ id, isInDex }: PokemonCardProps) {
-  const data = await fetchPokemon(id);
+  const data = await getCachedPokemon(id);
 
   const name = capitalizeFirstLetter(data.name);
 
