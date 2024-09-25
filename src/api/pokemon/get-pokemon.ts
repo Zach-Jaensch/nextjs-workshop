@@ -9,15 +9,13 @@ interface Pokemon {
   weight: number;
 }
 
-async function fetchPokemon(signal: AbortSignal, id: number): Promise<Pokemon> {
-  const result = await fetch(`http://localhost:3000/api/pokemon/${id}`, {
-    signal,
-  });
+async function fetchPokemon(id: number): Promise<Pokemon> {
+  const result = await fetch(`http://localhost:3000/api/pokemon/${id}`);
   return result.json();
 }
 
 export const getPokemonQueryOptions = (id: number) =>
   queryOptions({
     queryKey: ["pokemon", id],
-    queryFn: ({ signal }) => fetchPokemon(signal, id),
+    queryFn: () => fetchPokemon(id),
   });
